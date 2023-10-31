@@ -17,4 +17,6 @@ public interface AbstractBinaryTree<E> {
     void breadthFirstTraversal();
 
     boolean isMirrorSimilar(AbstractBinaryTree<E> tree1, AbstractBinaryTree<E> tree2);
+
+    void printTree();
 }

@@ -90,10 +90,10 @@ public class BinaryTree<E> implements AbstractBinaryTree<E> {
         if (getLeft() != null) {
             getLeft().forEachInOrder(consumer);
         }
+        consumer.accept(getKey());
         if (getRight() != null) {
             getRight().forEachInOrder(consumer);
         }
-        consumer.accept(getKey());
     }
 
     public void depthFirstTraversal() {
@@ -154,5 +154,61 @@ public class BinaryTree<E> implements AbstractBinaryTree<E> {
                 isMirrorSimilar(tree1.getRight(), tree2.getLeft());
     }
 
-}
+    @Override
+    public void printTree() {
+        int maxHeight = height(this);
+        Queue<AbstractBinaryTree<E>> queue = new LinkedList<>();
+        queue.add(this);
 
+        int level = 1;
+        int nodesInLevel = 1;
+
+        while (!queue.isEmpty()) {
+            int nodesInNextLevel = 0;
+            int spacesBefore = (int) (Math.pow(2, maxHeight - level) - 1);
+            int spacesBetween = (int) (Math.pow(2, maxHeight - level + 1) - 1);
+
+            for (int i = 0; i < spacesBefore; i++) {
+                System.out.print(" ");
+            }
+
+            for (int i = 0; i < nodesInLevel; i++) {
+                AbstractBinaryTree<E> node = queue.poll();
+                if (node != null) {
+                    System.out.print(node.getKey());
+                    queue.add(node.getLeft());
+                    queue.add(node.getRight());
+                    nodesInNextLevel += 2;
+                } else {
+                    System.out.print(" ");
+                    queue.add(null);
+                    queue.add(null);
+                }
+
+                for (int j = 0; j < spacesBetween; j++) {
+                    System.out.print(" ");
+                }
+            }
+
+            System.out.println();
+
+            level++;
+            nodesInLevel = nodesInNextLevel;
+
+            if (level > maxHeight) {
+                break;
+            }
+        }
+    }
+
+    private int height(AbstractBinaryTree<E> node) {
+        if (node == null) {
+            return 0;
+        } else {
+            int leftHeight = height(node.getLeft());
+            int rightHeight = height(node.getRight());
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
+    }
+
+}

@@ -4,11 +4,10 @@ public class MainBST {
     public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>();
 
-        // Вставка элементов
         bst.insert(50);
         bst.insert(30);
         bst.insert(70);
-        bst.insert(90);
+//        bst.insert(90);
         bst.insert(20);
         bst.insert(40);
         bst.insert(60);
