@@ -7,7 +7,7 @@ public interface AbstractBinarySearchTree<E extends Comparable<E>> {
         public Node<E> rightChild;
 
         public Node(E value) {
-            this.value= value;
+            this.value = value;
         }
 
         public Node(E value, Node<E>leftChild, Node<E>rightChild) {
@@ -33,4 +33,5 @@ public interface AbstractBinarySearchTree<E extends Comparable<E>> {
     Node<E>getLeft();
     Node<E>getRight();
     E getValue();
+    void printTree();
 }

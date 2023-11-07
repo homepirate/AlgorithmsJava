@@ -1,6 +1,9 @@
 package org.example.Trees;
 
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BinarySearchTree<E extends Comparable<E>> implements AbstractBinarySearchTree<E> {
     private Node<E> root;
 
@@ -100,4 +103,63 @@ public class BinarySearchTree<E extends Comparable<E>> implements AbstractBinary
                 "root=" + root +
                 '}';
     }
+
+
+    @Override
+    public void printTree() {
+        int maxHeight = height(this.root);
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.add(this.root);
+
+        int level = 1;
+        int nodesInLevel = 1;
+
+        while (!queue.isEmpty()) {
+            int nodesInNextLevel = 0;
+            int spacesBefore = (int) (Math.pow(2, maxHeight - level) - 1);
+            int spacesBetween = (int) (Math.pow(2, maxHeight - level + 1) - 1);
+
+            for (int i = 0; i < spacesBefore; i++) {
+                System.out.print(" ");
+            }
+
+            for (int i = 0; i < nodesInLevel; i++) {
+                Node<E> node = queue.poll();
+                if (node != null) {
+                    System.out.print(node.value);
+                    queue.add(node.leftChild);
+                    queue.add(node.rightChild);
+                    nodesInNextLevel += 2;
+                } else {
+                    System.out.print(" ");
+                    queue.add(null);
+                    queue.add(null);
+                }
+
+                for (int j = 0; j < spacesBetween; j++) {
+                    System.out.print(" ");
+                }
+            }
+
+            System.out.println();
+
+            level++;
+            nodesInLevel = nodesInNextLevel;
+
+            if (level > maxHeight) {
+                break;
+            }
+        }
+    }
+
+    private int height(Node<E> node) {
+        if (node == null) {
+            return 0;
+        } else {
+            int leftHeight = height(node.leftChild);
+            int rightHeight = height(node.rightChild);
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
+    }
+
 }
