@@ -41,12 +41,13 @@ public class MainBT {
         System.out.println("BFT:");
         tree.breadthFirstTraversal();
 
-        AbstractBinaryTree<Integer> tree2 = new BinaryTree<>(
-                4,
-                new BinaryTree<>(6, new BinaryTree<>(7, null, null), new BinaryTree<>(5, null, null)),
-                new BinaryTree<>(2, new BinaryTree<>(3, null, null), new BinaryTree<>(1, null, null)));
+                AbstractBinaryTree<Integer> tree2 = new BinaryTree<>(
+                        13,
+                        new BinaryTree<>(25, new BinaryTree<>(7, null, null), new BinaryTree<>(14, new BinaryTree<>(11, null, null), new BinaryTree<>(6, null, null))),
 
-
+        new BinaryTree<>(9, new BinaryTree<>(12, null, null), new BinaryTree<>(4, null, new BinaryTree<>(2, new BinaryTree<>(3, null, null), null))));
+//            tree2.printTree();
+//            tree.printTree();
         System.out.println("Сравнение зеркальных деревьев: " + tree.isMirrorSimilar(tree, tree2));
     }
 }
