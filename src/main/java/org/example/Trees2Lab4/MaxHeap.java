@@ -1,6 +1,6 @@
 package org.example.Trees2Lab4;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MaxHeap<E extends Comparable<E>> implements Heap<E> {
@@ -8,7 +8,7 @@ public class MaxHeap<E extends Comparable<E>> implements Heap<E> {
     private List<E> heap;
 
     public MaxHeap() {
-        this.heap = new ArrayList<>();
+        this.heap = new LinkedList<>();
     }
 
     @Override

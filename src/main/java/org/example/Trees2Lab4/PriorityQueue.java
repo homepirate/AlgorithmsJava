@@ -1,122 +1,83 @@
 package org.example.Trees2Lab4;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class PriorityQueue<E extends Comparable<E>> implements AbstractQueue<E>{
-    private List<E> queue;
+public class PriorityQueue<E extends Comparable<E>> implements AbstractQueue<E> {
+    private List<E> elements;
 
     public PriorityQueue() {
-        this.queue = new ArrayList<>();
+        elements = new ArrayList<>();
     }
 
     @Override
     public int size() {
-        return this.queue.size();
+        return elements.size();
     }
 
     @Override
     public void add(E element) {
-        queue.add(element);
-        int currentIndex = queue.size() - 1;
-        while (currentIndex > 0) {
-            int parentIndex = (currentIndex - 1) / 2;
-            if (queue.get(currentIndex).compareTo(queue.get(parentIndex)) > 0) {
-                E temp = queue.get(parentIndex);
-                queue.set(parentIndex, queue.get(currentIndex));
-                queue.set(currentIndex, temp);
-                currentIndex = parentIndex;
-            } else {
-                break;
-            }
-        }
+        elements.add(element);
+        heapifyUp(elements.size() - 1);
     }
 
     @Override
     public E peek() {
-        if (queue.isEmpty()) {
-            return null;
+        if (elements.isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
         }
-        return queue.get(0);
+        return elements.get(0);
     }
 
     @Override
     public E poll() {
-        if (queue.isEmpty()) {
-            return null;
+        if (elements.isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
         }
-        E result = queue.get(0);
-        E lastElement = queue.remove(queue.size() - 1);
-        if (!queue.isEmpty()) {
-            queue.set(0, lastElement);
-            int currentIndex = 0;
-            int maxChildIndex;
-            while (true) {
-                int leftChildIndex = 2 * currentIndex + 1;
-                int rightChildIndex = 2 * currentIndex + 2;
+        E maxElement = elements.get(0);
+        elements.set(0, elements.get(elements.size() - 1));
+        elements.remove(elements.size() - 1);
+        heapifyDown(0);
+        return maxElement;
+    }
 
-                if (leftChildIndex >= size()) {
-                    break;
-                }
-
-                if (rightChildIndex >= size()) {
-                    maxChildIndex = leftChildIndex;
-                } else {
-                    maxChildIndex = queue.get(leftChildIndex).compareTo(queue.get(rightChildIndex)) > 0 ? leftChildIndex : rightChildIndex;
-                }
-
-                if (lastElement.compareTo(queue.get(maxChildIndex)) >= 0) {
-                    break;
-                }
-
-                queue.set(currentIndex, queue.get(maxChildIndex));
-                currentIndex = maxChildIndex;
+    private void heapifyUp(int index) {
+        while (index > 0) {
+            int parentIndex = (index - 1) / 2;
+            if (elements.get(index).compareTo(elements.get(parentIndex)) <= 0) {
+                break;
             }
-            queue.set(currentIndex, lastElement);
-        }
-        return result;
-    }
-    public List<E> getSortedElements() {
-        List<E> sortedList = new ArrayList<>(queue);
-        int n = sortedList.size();
-
-        for (int i = n / 2 - 1; i >= 0; i--) {
-            heapifyDown(sortedList, n, i);
-        }
-
-        for (int i = n - 1; i > 0; i--) {
-            E temp = sortedList.get(0);
-            sortedList.set(0, sortedList.get(i));
-            sortedList.set(i, temp);
-
-            heapifyDown(sortedList, i, 0);
-        }
-
-        return sortedList;
-    }
-
-    private void heapifyDown(List<E> list, int n, int i) {
-        int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-
-        if (left < n && list.get(left).compareTo(list.get(largest)) > 0) {
-            largest = left;
-        }
-
-        if (right < n && list.get(right).compareTo(list.get(largest)) > 0) {
-            largest = right;
-        }
-
-        if (largest != i) {
-            E temp = list.get(i);
-            list.set(i, list.get(largest));
-            list.set(largest, temp);
-
-            heapifyDown(list, n, largest);
+            swap(index, parentIndex);
+            index = parentIndex;
         }
     }
 
+    private void heapifyDown(int index) {
+        int leftChildIndex = 2 * index + 1;
+        int rightChildIndex = 2 * index + 2;
+        int largestIndex = index;
+
+        if (leftChildIndex < elements.size() && elements.get(leftChildIndex).compareTo(elements.get(largestIndex)) > 0) {
+            largestIndex = leftChildIndex;
+        }
+
+        if (rightChildIndex < elements.size() && elements.get(rightChildIndex).compareTo(elements.get(largestIndex)) > 0) {
+            largestIndex = rightChildIndex;
+        }
+
+        if (largestIndex != index) {
+            swap(index, largestIndex);
+            heapifyDown(largestIndex);
+        }
+    }
+
+    private void swap(int index1, int index2) {
+        E temp = elements.get(index1);
+        elements.set(index1, elements.get(index2));
+        elements.set(index2, temp);
+    }
+
+    public List<E> getElements() {
+        return elements;
+    }
 }
-
