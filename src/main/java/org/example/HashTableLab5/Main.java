@@ -6,6 +6,14 @@ public class Main {
 //        Create a HashTable instance
         HashTable<String, Integer> table = new HashTable<>();
 
+
+        for (int i = 0; i < 35000; i++) {
+            String key = "Key" + i;
+            Integer value = i;
+            table.add(key, value);
+        }
+
+
         table.add("A", 1);
         table.add("B", 2);
         table.add("C", 3);
@@ -22,6 +30,9 @@ public class Main {
         System.out.println("Contains key 'E': " + table.containsKey("E"));  // return false
 //        Test remove
         System.out.println("Remove key 'B': " + table.remove("B")); // Should return true
+
+
+        System.out.println("countCollisions: " + table.countCollisions());
 
         // Test clear
         table.clear();

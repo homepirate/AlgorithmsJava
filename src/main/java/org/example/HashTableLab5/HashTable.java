@@ -28,6 +28,21 @@ private int capacity;
         }
     }
 
+
+    public int countCollisions() {
+        int collisionCount = 0;
+
+        for (LinkedList<KeyValue<K, V>> bucket : slots) {
+            // If the bucket size is greater than 1, it means there is more than one entry.
+            // Every additional entry in a bucket is considered a collision.
+            if (bucket.size() > 1) {
+                collisionCount += bucket.size() - 1;
+            }
+        }
+
+        return collisionCount;
+    }
+
     public void add(K key, V value) {
         int slot = findSlotNumber(key);
         LinkedList<KeyValue<K, V>> bucket = slots[slot];
